@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.env
+.venv
+tests.py 
+.idea/
+*.iml
+to_do/
+*.json
