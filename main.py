@@ -5,27 +5,111 @@ import re
 current_path = os.getcwd()
 if not os.path.exists(f"{current_path}/to_do"):
     os.mkdir(f"{current_path}/to_do")
+
+
+
+
+
+
+
+
+
+
+
 def main():
     print("to-do list: what do you want to do today?")
     while True:
         print("enter command\n"
               "1:add task\n"
               "2:show tasks\n"
-              "delete task\n"
               "3:mark task as done\n"
-              "4:exit")
+              "4:exit\n"
+              "5:delete task")
         try:
             command = int(input("command: "))
         except :
             print("!!!!!invalid command!!!!!!")
             continue
-        if command == 4:
-            kill_main()
         if command == 1:
-            pass
             add_task()
         if command == 2:
             show_task()
+        if command == 5:
+            delete_task()
+        if command == 4:
+            kill_main()
+        if command == 3:
+            mark_as_done()
+
+
+def mark_as_done():
+    if os.path.exists(f"{current_path}/to_do"):
+        files = []
+        all_files = os.listdir(f"{current_path}/to_do")
+        for file in all_files:
+            if file.endswith(".json"):
+                files.append(file)
+                print(f"task_{len(files)}:{file}")
+        if not files:
+            print("!!!No tasks found!!!")
+            return
+        print(f"enter number of file you want to mark as done:")
+        while True:
+            try:
+                command = int(input("number: "))
+                if command <= 0:
+                    print("!!!invalid number!!!\n"
+                          "try 1-99")
+                else:
+                    break
+            except :
+                print("!!!invalid number!!!")
+        try:
+            file_mark_as_done = files[command-1]
+            with open(f"{current_path}/to_do/{file_mark_as_done}", "r") as file:
+                file_data = json.load(file)
+                file_data["done"] = True
+            with open(f"{current_path}/to_do/{file_mark_as_done}", "w") as file:
+                json.dump(file_data, file, indent=4)
+                print(f"done file: {file_mark_as_done}")
+
+        except :
+            print("!!!invalid file!!!")
+
+
+
+def delete_task():
+    if os.path.exists(f"{current_path}/to_do"):
+        files = []
+        all_files = os.listdir(f"{current_path}/to_do")
+        for file in all_files:
+            if file.endswith(".json"):
+                files.append(file)
+                print(f"task_{len(files)}:{file}")
+        if not files:
+            print("!!!No tasks found!!!")
+            return
+        print(f"enter number of file you want to delete:")
+        while True:
+            try:
+                command = int(input("number: "))
+                if command <= 0:
+                    print("!!!invalid number!!!\n"
+                          "try 1-99")
+                else:
+                    break
+            except :
+                print("!!!invalid number!!!")
+        try:
+            file_to_delete = files[command-1]
+            path_f_t_delete = f"{current_path}/to_do/{file_to_delete}"
+            os.remove(path_f_t_delete)
+            print(f"deleted file: {file_to_delete}")
+        except :
+            print("!!!invalid file!!!")
+
+
+
 
 def show_task():
     print("all your tasks:")
