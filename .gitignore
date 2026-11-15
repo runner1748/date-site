@@ -1,9 +1,3 @@
-__pycache__/
-*.pyc
-.env
-.venv
-tests.py 
+.DS_Store
 .idea/
 *.iml
-to_do/
-*.json
